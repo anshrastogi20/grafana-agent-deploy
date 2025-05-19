@@ -14,8 +14,15 @@ sudo mv grafana-agent-linux-amd64 /usr/local/bin/grafana-agent
 
 # Create minimal Grafana Agent config file
 sudo tee /etc/grafana-agent.yaml > /dev/null <<EOF
-server:
-  http_listen_port: 12345
+metrics:
+  global:
+    scrape_interval: 15s
+  configs:
+  - name: default
+    scrape_configs:
+    - job_name: 'grafana-agent'
+      static_configs:
+      - targets: ['localhost:9100']
 EOF
 
 # Create Grafana Agent systemd service file
