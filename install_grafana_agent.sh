@@ -3,8 +3,8 @@
 set -e
 
 # Install unzip (needed to extract Grafana Agent)
-apt-get update
-apt-get install -y unzip
+sudo apt-get update
+sudo apt-get install -y unzip
 
 # Download and install Grafana Agent
 curl -LO https://github.com/grafana/agent/releases/latest/download/grafana-agent-linux-amd64.zip
