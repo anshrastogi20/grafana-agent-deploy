@@ -41,5 +41,9 @@ Group=root
 WantedBy=multi-user.target
 EOF
 
+# Reload systemd, enable and start Grafana Agent service
+sudo systemctl daemon-reload
+sudo systemctl enable grafana-agent
+sudo systemctl start grafana-agent
 
 echo "Grafana Agent installed, config created, and service started successfully."
