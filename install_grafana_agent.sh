@@ -12,6 +12,12 @@ unzip grafana-agent-linux-amd64.zip
 chmod +x grafana-agent-linux-amd64
 sudo mv grafana-agent-linux-amd64 /usr/local/bin/grafana-agent
 
+# Create minimal Grafana Agent config file
+sudo tee /etc/grafana-agent.yaml > /dev/null <<EOF
+server:
+  http_listen_port: 12345
+EOF
+
 # Create Grafana Agent systemd service file
 sudo tee /etc/systemd/system/grafana-agent.service > /dev/null <<EOF
 [Unit]
@@ -29,4 +35,4 @@ WantedBy=multi-user.target
 EOF
 
 
-echo "Grafana Agent installed and service started successfully."
+echo "Grafana Agent installed, config created, and service started successfully."
