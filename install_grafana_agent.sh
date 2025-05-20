@@ -17,12 +17,16 @@ sudo tee /etc/grafana-agent.yaml > /dev/null <<EOF
 metrics:
   global:
     scrape_interval: 15s
+
+  wal_directory: /tmp/grafana-agent-wal
+
   configs:
-  - name: default
-    scrape_configs:
-    - job_name: 'grafana-agent'
-      static_configs:
-      - targets: ['localhost:9100']
+    - name: agent
+      scrape_configs:
+        - job_name: 'agent-self'
+          static_configs:
+            - targets: ['localhost:12345']
+
 EOF
 
 # Create Grafana Agent systemd service file
@@ -32,7 +36,10 @@ Description=Grafana Agent
 After=network.target
 
 [Service]
-ExecStart=/usr/local/bin/grafana-agent --config.file=/etc/grafana-agent.yaml
+ExecStart=/usr/local/bin/grafana-agent \
+  --config.file=/etc/grafana-agent.yaml \
+  --server.http.listen-addr=127.0.0.1:12345
+
 Restart=on-failure
 User=root
 Group=root
